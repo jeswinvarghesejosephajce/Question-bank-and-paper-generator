@@ -1,0 +1,137 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX 100
+
+struct Question
+{
+    int sno;
+    int module;
+    int marks;
+    char text[200];
+};
+
+struct Question q[MAX];
+int count = 0;
+
+// Add Question
+void addQuestion()
+{
+    if (count >= MAX)
+    {
+        printf("\nQuestion bank is full!\n");
+        return;
+    }
+
+    q[count].sno = count + 1;
+
+    printf("\nEnter Module Number: ");
+    scanf("%d", &q[count].module);
+
+    printf("Enter Marks: ");
+    scanf("%d", &q[count].marks);
+    getchar();
+
+    printf("Enter Question Text: ");
+    fgets(q[count].text, 200, stdin);
+
+    q[count].text[strcspn(q[count].text, "\n")] = '\0';
+
+    count++;
+
+    printf("\nQuestion Added Successfully!\n");
+}
+
+// View All Questions
+void viewQuestions()
+{
+    int i;
+
+    if (count == 0)
+    {
+        printf("\nNo Questions Available!\n");
+        return;
+    }
+
+    printf("\n===== ALL QUESTIONS =====\n");
+
+    for (i = 0; i < count; i++)
+    {
+        printf("\nS.No: %d", q[i].sno);
+        printf("\nModule: %d", q[i].module);
+        printf("\nMarks: %d", q[i].marks);
+        printf("\nQuestion: %s\n", q[i].text);
+    }
+}
+
+// Search Question by S.No.
+void searchQuestion()
+{
+    int sno, i, found = 0;
+
+    printf("\nEnter Serial Number: ");
+    scanf("%d", &sno);
+
+    for (i = 0; i < count; i++)
+    {
+        if (q[i].sno == sno)
+        {
+            printf("\nQuestion Found!\n");
+            printf("S.No: %d\n", q[i].sno);
+            printf("Module: %d\n", q[i].module);
+            printf("Marks: %d\n", q[i].marks);
+            printf("Question: %s\n", q[i].text);
+
+            found = 1;
+            break;
+        }
+    }
+
+    if (found == 0)
+    {
+        printf("\nQuestion Not Found!\n");
+    }
+}
+
+// Main Function
+int main()
+{
+    int choice;
+
+    do
+    {
+        printf("\n===== QUESTION BANK =====\n");
+        printf("1. Add Question\n");
+        printf("2. View All Questions\n");
+        printf("3. Search Question by S.No.\n");
+        printf("4. Exit\n");
+
+        printf("\nEnter Your Choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+            case 1:
+                addQuestion();
+                break;
+
+            case 2:
+                viewQuestions();
+                break;
+
+            case 3:
+                searchQuestion();
+                break;
+
+            case 4:
+                printf("\nProgram Exited Successfully!\n");
+                break;
+
+            default:
+                printf("\nInvalid Choice!\n");
+        }
+
+    } while (choice != 4);
+
+    return 0;
+}
